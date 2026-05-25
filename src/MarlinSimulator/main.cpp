@@ -66,10 +66,11 @@ int main(int, char**) {
   SDLNet_Init();
 
   if (audio_enabled) audio_init();
-
+  const char* port_env = std::getenv("MARLINSIMUI_PORT");  
+  uint16_t port = port_env ? static_cast<uint16_t>(std::atoi(port_env)) : 8099;  
   // Listen before starting simulator loop to avoid
   // thread synchronization issues if listen_on_port fails
-  net_serial.listen_on_port(8099);
+  net_serial.listen_on_port(port);
 
   Application app;
   std::thread simulation_loop(simulation_main);
